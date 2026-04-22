@@ -1,0 +1,159 @@
+<div class="auth-page">
+    <div class="auth-container box" [class.wide]="form.controls.role.value === 'seller'">
+        <div class="auth-header">
+            <h2>Create an Account</h2>
+            <p>Already have an account? <a routerLink="/login">Sign in</a></p>
+        </div>
+
+        <div class="auth-success" *ngIf="successMessage">
+            {{ successMessage }}
+        </div>
+
+        <div class="auth-error" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+            <div class="form-row">
+                <!-- Basic Info Column -->
+                <div class="form-col basic-col">
+                    <div class="form-group row">
+                        <div class="role-selector">
+                            <label class="role-option" [class.active]="form.controls.role.value === 'buyer'">
+                                <input type="radio" formControlName="role" value="buyer">
+                                I need services (Buyer)
+                            </label>
+                            <label class="role-option" [class.active]="form.controls.role.value === 'seller'">
+                                <input type="radio" formControlName="role" value="seller">
+                                I am a freelancer
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" formControlName="name" placeholder="Enter your full name"
+                            [class.is-invalid]="form.controls.name.invalid && form.controls.name.touched">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" formControlName="email" placeholder="Enter your email"
+                            [class.is-invalid]="form.controls.email.invalid && form.controls.email.touched">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" formControlName="password"
+                            placeholder="Create a strong password"
+                            [class.is-invalid]="form.controls.password.invalid && form.controls.password.touched">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password *</label>
+                        <input type="password" id="confirmPassword" formControlName="confirmPassword"
+                            placeholder="Repeat your password"
+                            [class.is-invalid]="(form.controls.confirmPassword.invalid && form.controls.confirmPassword.touched) || (form.errors?.['passwordMismatch'] && form.controls.confirmPassword.touched)">
+                    </div>
+                </div>
+
+                <!-- Freelancer Info Column (Only visible if role is seller) -->
+                <div class="form-col seller-col" *ngIf="form.controls.role.value === 'seller'" formGroupName="candidateProfile">
+                    <div class="section-title">
+                        <h4>Freelancer Profile</h4>
+                        <p>Tell us about your services so clients can find you.</p>
+                    </div>
+
+                    <div class="form-group profile-image-group">
+                        <label>Profile Image</label>
+                        <div class="image-input-row">
+                            <div class="image-preview" *ngIf="form.get('candidateProfile.profileImage')?.value">
+                                <img [src]="form.get('candidateProfile.profileImage')?.value" alt="Profile preview" (error)="$any($event.target).style.display='none'">
+                            </div>
+                            <div class="image-preview placeholder" *ngIf="!form.get('candidateProfile.profileImage')?.value">
+                                <span>📷</span>
+                            </div>
+                            <div class="image-inputs">
+                                <input type="file" accept="image/*" (change)="onFileSelected($event)" class="file-input">
+                                <span class="or-divider">OR</span>
+                                <input type="url" formControlName="profileImage" placeholder="Paste a direct image link https://...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select formControlName="subcategoryId">
+                            <option value="">Select a category</option>
+                            <optgroup *ngFor="let cat of categories" [label]="cat.title">
+                                <option *ngFor="let sub of cat.subcategories" [value]="sub.id">
+                                    {{ sub.title }}
+                                </option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Professional Title *</label>
+                        <input type="text" formControlName="roleTitle" placeholder="e.g. Senior Java Developer">
+                    </div>
+
+                    <div class="form-group two-cols">
+                        <div class="sub-col">
+                            <label>Starting Price ($) *</label>
+                            <input type="number" formControlName="priceFrom" min="1">
+                        </div>
+                        <div class="sub-col">
+                            <label>Experience (Years) *</label>
+                            <input type="number" formControlName="experience" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Location *</label>
+                        <input type="text" formControlName="location" placeholder="e.g. Mumbai, India">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Skills * <span class="hint">(Comma separated)</span></label>
+                        <input type="text" formControlName="skills" placeholder="e.g. Java, Spring Boot, MySQL">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bio</label>
+                        <textarea formControlName="bio" rows="4"
+                            placeholder="Write a brief description about your expertise and what you offer."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Professional Goals</label>
+                        <textarea formControlName="goals" rows="3"
+                            placeholder="What are your goals on this platform?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Availability *</label>
+                        <select formControlName="availability" [class.is-invalid]="form.get('candidateProfile.availability')?.invalid && form.get('candidateProfile.availability')?.touched">
+                            <option value="">Select your availability</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="20 hrs/week">20 hrs/week</option>
+                            <option value="Weekends only">Weekends only</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Interests</label>
+                        <input type="text" formControlName="interests" placeholder="e.g. AI, Open Source, System Design">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary submit-btn" [disabled]="isLoading">
+                {{ isLoading ? 'Creating Account...' : 'Sign Up' }}
+            </button>
+        </form>
+
+        <p class="terms">By joining, you agree to discovery's Terms of Service and Privacy Policy.</p>
+    </div>
+</div>

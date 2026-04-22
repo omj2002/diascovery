@@ -1,0 +1,44 @@
+<div class="auth-page">
+    <div class="auth-container box">
+        <div class="auth-header">
+            <h2>Welcome Back</h2>
+            <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
+        </div>
+
+        <div class="auth-error" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </div>
+
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="auth-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" [(ngModel)]="credentials.email" required
+                    placeholder="Enter your email" [class.is-invalid]="email.invalid && email.touched"
+                    #email="ngModel">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" [(ngModel)]="credentials.password" required
+                    placeholder="Enter your password" [class.is-invalid]="password.invalid && password.touched"
+                    #password="ngModel">
+                <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary submit-btn" [disabled]="isLoading">
+                {{ isLoading ? 'Signing in...' : 'Sign in' }}
+            </button>
+        </form>
+
+        <div class="auth-divider">
+            <span>or continue with</span>
+        </div>
+
+        <div class="social-login">
+            <button class="btn btn-outline social-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
+                Google
+            </button>
+        </div>
+    </div>
+</div>

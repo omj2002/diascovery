@@ -1,0 +1,128 @@
+.invitations-page {
+  min-height: 100vh;
+  padding: 8rem 2rem 4rem;
+  background: radial-gradient(circle at top right, #1a1a2e, #16213e, #0f3460);
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  }
+
+  .page-header {
+    margin-bottom: 2rem;
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    
+    lucide-icon {
+      color: rgba(255, 255, 255, 0.3);
+      margin-bottom: 1rem;
+    }
+    h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    p { color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem; }
+    .btn-outline {
+      border: 1px solid #8ec5fc; color: #8ec5fc;
+      text-decoration: none; padding: 0.8rem 1.5rem; border-radius: 12px;
+    }
+  }
+
+  .invitations-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .invite-card {
+    transition: transform 0.3s ease;
+    border-left: 4px solid #feca57; // pending
+
+    &.accepted { border-left-color: #2ed573; }
+    &.rejected { border-left-color: #ff4757; opacity: 0.7; }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+
+      .project-info {
+        h2 { font-size: 1.5rem; margin-bottom: 0.4rem; color: #e0c3fc;}
+        .type-badge {
+          background: rgba(142, 197, 252, 0.2); color: #8ec5fc;
+          padding: 0.2rem 0.6rem; border-radius: 8px; font-size: 0.8rem;
+        }
+      }
+
+      .status-badge {
+        font-weight: 600; font-size: 0.9rem; padding: 0.4rem 1rem; border-radius: 20px;
+        text-transform: uppercase;
+        
+        &.pending { background: rgba(254, 202, 87, 0.2); color: #feca57; }
+        &.accepted { background: rgba(46, 213, 115, 0.2); color: #2ed573; }
+        &.rejected { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
+      }
+    }
+
+    .desc {
+      color: rgba(255, 255, 255, 0.8); line-height: 1.6; margin-bottom: 1.2rem;
+    }
+
+    .meta-info {
+      display: flex; gap: 1.5rem; margin-bottom: 1.5rem; color: rgba(255, 255, 255, 0.5); font-size: 0.9rem;
+      span { display: flex; align-items: center; gap: 0.5rem; }
+    }
+
+    .action-bar {
+      display: flex; gap: 1rem;
+      padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+      .btn {
+        display: flex; align-items: center; gap: 0.5rem;
+        padding: 0.8rem 1.5rem; border-radius: 12px; font-weight: 500; font-size: 1rem; border: none; cursor: pointer; transition: transform 0.2s;
+        
+        &:hover { transform: translateY(-2px); }
+        &.btn-success { background: #2ed573; color: #fff; }
+        &.btn-danger { background: rgba(255, 71, 87, 0.1); color: #ff4757; border: 1px solid #ff4757; }
+      }
+
+      &.settled {
+        p { color: rgba(255, 255, 255, 0.6); font-style: italic; margin: 0; }
+      }
+    }
+  }
+
+  .loading-state {
+    text-align: center; padding: 3rem;
+    .spinner {
+      width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: #8ec5fc; border-radius: 50%;
+      animation: spin 1s linear infinite; margin: 0 auto 1rem;
+    }
+  }
+}
+@keyframes spin { to { transform: rotate(360deg); } }

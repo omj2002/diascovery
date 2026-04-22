@@ -1,0 +1,15 @@
+<div class="category-card" [routerLink]="['/candidates']" [queryParams]="{category: category.id}">
+    <div class="card-image">
+        <img [src]="category.image" [alt]="category.title">
+        <div class="overlay"></div>
+    </div>
+    <div class="card-content">
+        <div class="icon-box">
+            <lucide-icon [name]="category.icon" [size]="20" class="icon"></lucide-icon>
+        </div>
+        <div class="text">
+            <h3>{{ category.title }}</h3>
+            <p>{{ category.description }}</p>
+        </div>
+    </div>
+</div>

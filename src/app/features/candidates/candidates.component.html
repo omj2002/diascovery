@@ -1,0 +1,121 @@
+<div class="search-header">
+    <div class="container header-inner">
+        <h1 *ngIf="searchQuery">Results for "<span>{{ searchQuery }}</span>"</h1>
+        <h1 *ngIf="!searchQuery && selectedCategoryId">Explore <span>{{ selectedCategoryName }}</span></h1>
+        <h1 *ngIf="!searchQuery && !selectedCategoryId">Find the best <span>freelancers</span></h1>
+    </div>
+</div>
+
+<div class="container listing-content">
+    <div class="sidebar">
+
+        <!-- Categories -->
+        <div class="filter-group">
+            <h3>Categories</h3>
+            <ul>
+                <li [class.active]="!selectedCategoryId" [routerLink]="['/candidates']"
+                    [queryParams]="{search: searchQuery}">All Categories</li>
+                <li *ngFor="let cat of categories" [class.active]="selectedCategoryId === cat.id"
+                    [routerLink]="['/candidates']" [queryParams]="{category: cat.id, search: searchQuery}">
+                    {{ cat.title }}
+                </li>
+            </ul>
+        </div>
+
+        <!-- Experience Level -->
+        <div class="filter-group">
+            <h3>Experience Level</h3>
+            <div class="filter-item">
+                <label>
+                    <input type="radio" name="expRange" value="0-3"
+                        [checked]="selectedMinExp === 0 && selectedMaxExp === 3"
+                        (change)="onExperienceChange(0, 3)">
+                    Entry (0–3 years)
+                </label>
+            </div>
+            <div class="filter-item">
+                <label>
+                    <input type="radio" name="expRange" value="3-5"
+                        [checked]="selectedMinExp === 3 && selectedMaxExp === 5"
+                        (change)="onExperienceChange(3, 5)">
+                    Mid (3–5 years)
+                </label>
+            </div>
+            <div class="filter-item">
+                <label>
+                    <input type="radio" name="expRange" value="5-99"
+                        [checked]="selectedMinExp === 5 && selectedMaxExp === null"
+                        (change)="onExperienceChange(5, null)">
+                    Senior (5+ years)
+                </label>
+            </div>
+            <div class="filter-item">
+                <label>
+                    <input type="radio" name="expRange" value="any"
+                        [checked]="selectedMinExp === null && selectedMaxExp === null"
+                        (change)="onExperienceChange(null, null)">
+                    Any Experience
+                </label>
+            </div>
+        </div>
+
+        <!-- Location -->
+        <div class="filter-group">
+            <h3>Location</h3>
+            <input
+                class="filter-text-input"
+                type="text"
+                placeholder="e.g. Mumbai, India"
+                [(ngModel)]="locationQuery"
+                (input)="onFilterChange()">
+        </div>
+
+        <!-- Max Price -->
+        <div class="filter-group">
+            <h3>Max Price ($)</h3>
+            <input
+                class="filter-text-input"
+                type="number"
+                placeholder="e.g. 500"
+                [(ngModel)]="maxPrice"
+                (input)="onFilterChange()"
+                min="0">
+        </div>
+
+    </div>
+
+    <div class="main-listing">
+        <div class="listing-toolbar">
+            <span class="results-count">{{ totalElements }} services available</span>
+            <div class="sort-box">
+                <label>Sort by:</label>
+                <select [(ngModel)]="sortBy" (change)="onSortChange()">
+                    <option value="rating">Top Rated</option>
+                    <option value="experience">Most Experienced</option>
+                    <option value="price">Best Price</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="candidates-grid" *ngIf="candidates.length > 0">
+            <app-candidate-card *ngFor="let cand of candidates" [candidate]="cand"></app-candidate-card>
+        </div>
+
+        <div class="no-results" *ngIf="candidates.length === 0">
+            <lucide-icon name="search-x" [size]="80" class="no-results-icon"></lucide-icon>
+            <h2>No results found</h2>
+            <p>Try adjusting your search filters or check your spelling.</p>
+        </div>
+
+        <div class="pagination" *ngIf="totalElements > pageSize">
+            <button class="page-btn" [disabled]="currentPage === 0" (click)="onPageChange(currentPage - 1)">
+                Prev
+            </button>
+            <span class="page-info">Page {{ currentPage + 1 }} of {{ Math.ceil(totalElements / pageSize) }}</span>
+            <button class="page-btn" [disabled]="(currentPage + 1) * pageSize >= totalElements"
+                (click)="onPageChange(currentPage + 1)">
+                Next
+            </button>
+        </div>
+    </div>
+</div>

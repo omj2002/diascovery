@@ -1,0 +1,89 @@
+<nav class="navbar" [class.scrolled]="isScrolled">
+    <div class="container navbar-inner">
+        <div class="navbar-left">
+            <a routerLink="/" class="logo">
+                <span class="logo-text">discovery</span>
+                <span class="dot">.</span>
+            </a>
+            <div class="categories-menu" (mouseenter)="showCategoriesDropdown = true"
+                (mouseleave)="showCategoriesDropdown = false">
+                <button class="nav-link categories-btn">
+                    Explore
+                    <lucide-icon name="chevron-down" [size]="16" class="chevron"></lucide-icon>
+                </button>
+                <div class="categories-dropdown" *ngIf="showCategoriesDropdown">
+                    <div class="dropdown-content">
+                        <div *ngFor="let cat of categories" class="dropdown-item"
+                            [routerLink]="['/candidates']" [queryParams]="{category: cat.id}">
+                            <lucide-icon [name]="cat.icon" [size]="16"></lucide-icon>
+                            <span>{{ cat.title }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-center">
+            <div class="search-bar">
+                <input type="text" placeholder="What service are you looking for today?" [(ngModel)]="searchQuery"
+                    (keyup.enter)="onSearch()">
+                <button class="search-btn" (click)="onSearch()">
+                    <lucide-icon name="search" [size]="18"></lucide-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="navbar-right">
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                class="nav-link">Home</a>
+            <a routerLink="/candidates" routerLinkActive="active" class="nav-link">Explore</a>
+            
+            <ng-container *ngIf="!isLoggedIn">
+                <a routerLink="/register" class="nav-link join-btn btn btn-outline">Join</a>
+                <a routerLink="/login" class="nav-link signup-btn btn btn-primary">Sign in</a>
+            </ng-container>
+
+            <ng-container *ngIf="isLoggedIn">
+                <a routerLink="/post-project" class="nav-link btn btn-outline post-btn" style="margin-right: 15px; border-color: #8ec5fc; color: #8ec5fc;">Post a Project</a>
+            </ng-container>
+
+            <div class="user-menu-container" *ngIf="isLoggedIn" (mouseenter)="showUserDropdown = true" (mouseleave)="showUserDropdown = false">
+                <button class="nav-link categories-btn user-btn">
+                    <div class="user-avatar" *ngIf="userName">{{ userName.charAt(0).toUpperCase() }}</div>
+                    <span>{{ userName }}</span>
+                    <lucide-icon name="chevron-down" [size]="16" class="chevron"></lucide-icon>
+                </button>
+                <div class="categories-dropdown dropdown-menu-right" *ngIf="showUserDropdown">
+                    <div class="dropdown-content">
+                        <a class="dropdown-item" routerLink="/profile">
+                            <lucide-icon name="user" [size]="16"></lucide-icon>
+                            <span>My Profile</span>
+                        </a>
+                        <a class="dropdown-item" routerLink="/invitations">
+                            <lucide-icon name="mail" [size]="16"></lucide-icon>
+                            <span>My Invitations</span>
+                        </a>
+                        <a class="dropdown-item" routerLink="/messages">
+                            <lucide-icon name="message-square" [size]="16"></lucide-icon>
+                            <span>My Messages</span>
+                        </a>
+                        <a class="dropdown-item" (click)="logout()">
+                            <lucide-icon name="log-out" [size]="16"></lucide-icon>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Second Nav for categories (visible on home below hero or sticky) -->
+<div class="categories-bar" *ngIf="isScrolled">
+    <div class="container bar-inner">
+        <div *ngFor="let cat of categories" class="bar-item" [routerLink]="['/candidates']"
+            [queryParams]="{category: cat.id}">
+            {{ cat.title }}
+        </div>
+    </div>
+</div>

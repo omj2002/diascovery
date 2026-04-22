@@ -1,0 +1,34 @@
+<div class="chat-list-page">
+  <div class="container">
+    <div class="page-header glass-panel">
+      <h1>My Messages</h1>
+      <p>Continue your conversations with project owners and candidates.</p>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-state glass-panel">
+      <div class="spinner"></div>
+      <p>Loading your chats...</p>
+    </div>
+
+    <div class="chats-grid" *ngIf="!isLoading">
+      <div *ngIf="chats.length === 0" class="empty-state glass-panel">
+        <lucide-icon name="message-square" [size]="48"></lucide-icon>
+        <h3>No messages yet</h3>
+        <p>You haven't started any conversations. Reach out to someone to get started!</p>
+      </div>
+
+      <div class="chat-card glass-panel" *ngFor="let chat of chats" [routerLink]="['/chat', chat.id]">
+        <div class="avatar-circle">
+          <lucide-icon name="user" [size]="24"></lucide-icon>
+        </div>
+        <div class="chat-info">
+          <h3>Chat with {{ userNames[getOtherParticipantId(chat)] || 'Loading...' }}</h3>
+          <p class="last-msg">{{ chat.lastMessage || 'Open to start chatting' }}</p>
+        </div>
+        <div class="meta">
+          <span class="time" *ngIf="chat.lastMessageAt">{{ chat.lastMessageAt | date:'short' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+import { Routes } from '@angular/router';
+import { HomeComponent } from './features/home/home.component';
+import { CandidatesComponent } from './features/candidates/candidates.component';
+import { CategoryDetailsComponent } from './features/category-details/category-details.component';
+import { CandidateDetailsComponent } from './features/candidate-details/candidate-details.component';
+import { LoginComponent } from './features/login/login.component';
+import { RegisterComponent } from './features/register/register.component';
+import { ChatComponent } from './features/chat/chat.component';
+import { Terms } from './features/terms/terms';
+import { Privacy } from './features/privacy/privacy';
+import { Cookies } from './features/cookies/cookies';
+import { Help } from './features/help/help';
+import { Contact } from './features/contact/contact';
+import { Guidelines } from './features/guidelines/guidelines';
+import { PostProjectComponent } from './features/post-project/post-project.component';
+import { ProfileComponent } from './features/profile/profile.component';
+import { InvitationsComponent } from './features/invitations/invitations.component';
+import { ChatListComponent } from './features/chat-list/chat-list.component';
+
+export const routes: Routes = [
+    { path: '', component: HomeComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'messages', component: ChatListComponent },
+    { path: 'chat/:conversationId', component: ChatComponent },
+    { path: 'terms', component: Terms },
+    { path: 'privacy', component: Privacy },
+    { path: 'cookies', component: Cookies },
+    { path: 'help', component: Help },
+    { path: 'contact', component: Contact },
+    { path: 'guidelines', component: Guidelines },
+    { path: 'profile', component: ProfileComponent },
+    { path: 'invitations', component: InvitationsComponent },
+    { path: 'post-project', component: PostProjectComponent },
+    { path: 'candidates', component: CandidatesComponent },
+    { path: 'categories/:id', component: CategoryDetailsComponent },
+    { path: 'candidate-details/:id', component: CandidateDetailsComponent },
+    { path: '**', redirectTo: '' }
+];

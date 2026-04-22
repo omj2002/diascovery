@@ -1,0 +1,41 @@
+<div class="chat-page">
+  <div class="chat-header">
+    <h2 *ngIf="messages.length > 0">
+        Chat with {{ messages[0].senderId === currentUserId ? userNames[messages[messages.length-1].senderId] : userNames[messages[0].senderId] }}
+    </h2>
+    <h2 *ngIf="messages.length === 0">Chat</h2>
+  </div>
+
+  <div class="chat-error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="chat-messages" *ngIf="messages.length > 0">
+    <div class="message" *ngFor="let m of messages" [ngClass]="{ 'message-own': m.senderId === currentUserId, 'message-other': m.senderId !== currentUserId }">
+      <div class="message-meta">
+        <span class="sender">{{ userNames[m.senderId] || m.senderId }}</span>
+        <span class="time" *ngIf="m.createdAt">{{ m.createdAt | date:'short' }}</span>
+      </div>
+      <div class="message-content">{{ m.content }}</div>
+    </div>
+  </div>
+
+  <div class="chat-empty" *ngIf="!messages.length && !errorMessage">
+    No messages yet.
+  </div>
+
+  <form class="chat-composer" (ngSubmit)="sendMessage()">
+    <input
+      type="text"
+      name="message"
+      [(ngModel)]="messageContent"
+      placeholder="Type a message..."
+      [disabled]="isLoading"
+      required
+    />
+    <button type="submit" class="btn btn-primary" [disabled]="isLoading || !messageContent.trim()">
+      {{ isLoading ? 'Sending...' : 'Send' }}
+    </button>
+  </form>
+</div>
+

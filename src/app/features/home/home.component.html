@@ -1,0 +1,114 @@
+<section class="hero">
+    <div class="overlay"></div>
+    <div class="container hero-content">
+        <h1>Discover and connect with<br><span>incredible people</span></h1>
+        <div class="search-box">
+            <div class="input-wrapper">
+                <lucide-icon name="search" [size]="18" class="icon"></lucide-icon>
+                <input type="text" placeholder='Try "Software Engineer" or "Musician"' [(ngModel)]="searchQuery"
+                    (keyup.enter)="onSearch()">
+            </div>
+            <button class="btn btn-primary" (click)="onSearch()">Search</button>
+        </div>
+        <div class="popular">
+            <span>Popular:</span>
+            <button class="popular-tag" (click)="onPopularSearch('Java Developer')">Java Developer</button>
+            <button class="popular-tag" (click)="onPopularSearch('UI Designer')">UI Designer</button>
+            <button class="popular-tag" (click)="onPopularSearch('Python')">Python</button>
+            <button class="popular-tag" (click)="onPopularSearch('Tennis')">Tennis</button>
+        </div>
+    </div>
+</section>
+
+<section class="trust-section">
+    <div class="container trust-inner">
+        <span>Trusted by:</span>
+        <div class="logos">
+            <img src="https://placehold.co/100x40/f5f5f5/62646a?text=Google&font=outfit" alt="Google">
+            <img src="https://placehold.co/100x40/f5f5f5/62646a?text=Netflix&font=outfit" alt="Netflix">
+            <img src="https://placehold.co/100x40/f5f5f5/62646a?text=P%26G&font=outfit" alt="P&G">
+            <img src="https://placehold.co/100x40/f5f5f5/62646a?text=PayPal&font=outfit" alt="PayPal">
+        </div>
+    </div>
+</section>
+
+<section class="how-it-works container">
+    <div class="how-header text-center">
+        <h2>How <span>discovery<span class="dot">.</span></span> Works</h2>
+        <p>Your journey to building meaningful connections in three simple steps</p>
+    </div>
+    <div class="steps-grid">
+        <div class="step-card">
+            <div class="icon-circle">
+                <lucide-icon name="search" [size]="28"></lucide-icon>
+            </div>
+            <h3>1. Discover People</h3>
+            <p>Explore detailed profiles, read about their experiences, and find the perfect match for your network.</p>
+        </div>
+        <div class="step-card">
+            <div class="icon-circle">
+                <lucide-icon name="message-square" [size]="28"></lucide-icon>
+            </div>
+            <h3>2. Start a Conversation</h3>
+            <p>Reach out instantly. Chat, share ideas, and find common ground in a secure environment.</p>
+        </div>
+        <div class="step-card">
+            <div class="icon-circle">
+                <lucide-icon name="users" [size]="28"></lucide-icon>
+            </div>
+            <h3>3. Collaborate & Grow</h3>
+            <p>Build lasting relationships, exchange knowledge, and collaborate on exciting ideas together.</p>
+        </div>
+    </div>
+</section>
+
+<section class="categories-section container">
+    <h2 class="section-title">Popular <span>Categories</span></h2>
+    <div class="category-grid">
+        <app-category-card *ngFor="let cat of visibleCategories" [category]="cat"></app-category-card>
+    </div>
+    <div class="view-all" *ngIf="categoriesToShow < categories.length">
+        <button class="btn btn-outline" (click)="viewMoreCategories()">View More</button>
+    </div>
+</section>
+
+<section class="top-candidates-section container">
+    <h2 class="section-title">Featured <span>Profiles</span></h2>
+    <div class="candidate-grid">
+        <app-candidate-card *ngFor="let cand of topCandidates" [candidate]="cand"></app-candidate-card>
+    </div>
+    <div class="view-all">
+        <button class="btn btn-outline" routerLink="/candidates">Discover Everyone</button>
+    </div>
+</section>
+
+<section class="selling-info container">
+    <div class="info-content">
+        <h2>Why join discovery?</h2>
+        <div class="info-item">
+            <div class="icon-header">
+                <lucide-icon name="check-circle" [size]="20" class="check"></lucide-icon>
+                <h3>Find the perfect match</h3>
+            </div>
+            <p>Search by skills, interests, and background to find exactly who you're looking to connect with.</p>
+        </div>
+        <div class="info-item">
+            <div class="icon-header">
+                <lucide-icon name="check-circle" [size]="20" class="check"></lucide-icon>
+                <h3>Connect instantly</h3>
+            </div>
+            <p>Break the ice right away. Our platform makes starting meaningful conversations smoother than ever.</p>
+        </div>
+        <div class="info-item">
+            <div class="icon-header">
+                <lucide-icon name="check-circle" [size]="20" class="check"></lucide-icon>
+                <h3>Expand your horizon</h3>
+            </div>
+            <p>Access a global network of professionals, mentors, and peers ready to collaborate and share ideas.</p>
+        </div>
+    </div>
+    <div class="info-image">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800"
+            alt="Work together">
+    </div>
+</section>

@@ -1,0 +1,71 @@
+<div class="profile-page">
+  <div class="container">
+    
+    <div class="profile-header glass-panel" *ngIf="user">
+      <div class="avatar-circle">
+        {{ user.name?.charAt(0)?.toUpperCase() || 'U' }}
+      </div>
+      <div class="user-info">
+        <h1>{{ user.name }}</h1>
+        <p class="role-badge">{{ user.role | titlecase }}</p>
+        <p class="email">{{ user.email }}</p>
+      </div>
+    </div>
+
+    <!-- State when loading -->
+    <div *ngIf="isLoading" class="loading-state glass-panel">
+      <div class="spinner"></div>
+      <p>Loading your profile details...</p>
+    </div>
+
+    <!-- Projects Section -->
+    <div class="projects-section" *ngIf="!isLoading && user">
+      <div class="section-top">
+        <h2>My Posted Projects</h2>
+        <a routerLink="/post-project" class="btn btn-primary">Post New Project</a>
+      </div>
+
+      <div *ngIf="projects.length === 0" class="empty-state glass-panel">
+        <lucide-icon name="briefcase" [size]="48"></lucide-icon>
+        <h3>No projects yet</h3>
+        <p>You haven't posted any projects. Find talented individuals by posting your requirements.</p>
+        <a routerLink="/post-project" class="btn btn-outline mt-3">Post a Project</a>
+      </div>
+
+      <div class="projects-grid">
+        <div class="project-card glass-panel" *ngFor="let p of projects">
+          <div class="proj-header">
+            <h3>{{ p.title }}</h3>
+            <span class="status-badge" [class.open]="p.status !== 'Closed'">{{ p.status || 'Active' }}</span>
+          </div>
+          
+          <p class="desc">{{ p.description }}</p>
+          
+          <div class="proj-meta">
+            <span><lucide-icon name="users" [size]="16"></lucide-icon> Team Size: {{ p.teamSize }}</span>
+            <span><lucide-icon name="tag" [size]="16"></lucide-icon> {{ p.projectType | titlecase }}</span>
+          </div>
+
+          <div class="hires-section">
+            <h4>Hired Team Members ({{ getAcceptedHires(p.id).length }} / {{ p.teamSize }})</h4>
+            <div class="hired-list" *ngIf="getAcceptedHires(p.id).length > 0">
+              <div class="hired-item" *ngFor="let invite of getAcceptedHires(p.id)" [routerLink]="['/candidate-details', invite.candidate.id]">
+                <div class="h-avatar">{{ invite.candidate.name ? invite.candidate.name.charAt(0) : 'U' }}</div>
+                <div class="h-info">
+                  <span class="h-name">{{ invite.candidate.name }}</span>
+                  <span class="h-role">{{ invite.candidate.role }}</span>
+                </div>
+              </div>
+            </div>
+            <p class="no-hires" *ngIf="getAcceptedHires(p.id).length === 0">No team members hired yet. Browse candidates to invite them!</p>
+
+            <div class="pending-section" *ngIf="getPendingInvites(p.id).length > 0">
+              <p class="pending-text">Pending Invites: {{ getPendingInvites(p.id).length }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

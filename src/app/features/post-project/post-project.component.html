@@ -1,0 +1,72 @@
+<div class="post-project-page">
+  <div class="glass-panel">
+    <div class="header">
+      <h1>Post a New Project</h1>
+      <p>Find the perfect teammates by providing detailed requirements.</p>
+    </div>
+
+    <div class="alert success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="alert error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="project-form">
+      <div class="form-group row">
+        <div class="col">
+          <label>Project Title *</label>
+          <input type="text" formControlName="title" placeholder="e.g., E-commerce App Redesign"
+                 [class.invalid]="projectForm.controls.title.invalid && projectForm.controls.title.touched">
+        </div>
+        <div class="col">
+          <label>Project Type *</label>
+          <select formControlName="projectType">
+            <option value="commercial">Commercial / Start-up</option>
+            <option value="opensource">Open Source</option>
+            <option value="academic">Academic / Learning</option>
+            <option value="hobby">Hobby Project</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Project Description *</label>
+        <textarea formControlName="description" rows="5"
+                  placeholder="Describe the nature of the project and its core objectives..."
+                  [class.invalid]="projectForm.controls.description.invalid && projectForm.controls.description.touched"></textarea>
+      </div>
+
+      <div class="form-group row">
+        <div class="col">
+          <label>Required Roles *</label>
+          <input type="text" formControlName="requiredRoles" placeholder="e.g., UI/UX Designer, Backend Dev"
+                 [class.invalid]="projectForm.controls.requiredRoles.invalid && projectForm.controls.requiredRoles.touched">
+        </div>
+        <div class="col">
+          <label>Required Skills *</label>
+          <input type="text" formControlName="requiredSkills" placeholder="e.g., Figma, Node.js, React"
+                 [class.invalid]="projectForm.controls.requiredSkills.invalid && projectForm.controls.requiredSkills.touched">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col">
+          <label>Team Size *</label>
+          <input type="number" formControlName="teamSize" min="1" placeholder="Number of members needed"
+                 [class.invalid]="projectForm.controls.teamSize.invalid && projectForm.controls.teamSize.touched">
+        </div>
+        <div class="col">
+          <label>Header Image URL (Optional)</label>
+          <input type="text" formControlName="imageURL" placeholder="https://example.com/image.png">
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Post Project</span>
+        <span *ngIf="isLoading" class="spinner"></span>
+      </button>
+    </form>
+  </div>
+</div>

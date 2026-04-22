@@ -1,0 +1,28 @@
+<div class="category-hero" *ngIf="category" [style.backgroundImage]="'url(' + category.image + ')'">
+    <div class="overlay"></div>
+    <div class="container hero-content">
+        <div class="breadcrumb">
+            <a routerLink="/">Home</a> / <span>{{ category.title }}</span>
+        </div>
+        <h1>{{ category.title }}</h1>
+        <p>{{ category.description }}</p>
+        <button class="btn btn-primary">How it works</button>
+    </div>
+</div>
+
+<div class="container subcategories-section" *ngIf="category">
+    <h2 class="section-title">Explore <span>{{ category.title }}</span> services</h2>
+    <div class="subcategory-grid">
+        <div *ngFor="let sub of category.subcategories" class="subcategory-card" [routerLink]="['/candidates']"
+            [queryParams]="{roleId: sub.id}">
+            <div class="icon-box">
+                <lucide-icon [name]="category.icon" [size]="24"></lucide-icon>
+            </div>
+            <h3>{{ sub.title }}</h3>
+            <p>Find the best {{ sub.title }} experts worldwide.</p>
+            <div class="arrow">
+                <lucide-icon name="arrow-right" [size]="18"></lucide-icon>
+            </div>
+        </div>
+    </div>
+</div>

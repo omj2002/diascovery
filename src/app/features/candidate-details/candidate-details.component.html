@@ -1,0 +1,155 @@
+<div class="candidate-detail-page" *ngIf="candidate">
+    <div class="header-spacing"></div>
+
+    <div class="container main-content">
+        <div class="left-col">
+            <div class="profile-card box">
+                <div class="status-badge">Available</div>
+                <img [src]="candidate.profileImage" alt="" class="profile-img">
+                <h2>{{ candidate.name }}</h2>
+                <p class="role">{{ candidate.role }}</p>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <lucide-icon name="star" [size]="16" fill="#ffbe5b" style="color:#ffbe5b"></lucide-icon>
+                        <strong>{{ candidate.rating }}</strong>
+                        <span>({{ candidate.reviewCount }} reviews)</span>
+                    </div>
+                </div>
+
+                <div class="price-info">
+                    <span class="price-label">Starting at</span>
+                    <span class="price-value">${{ candidate.priceFrom }}</span>
+                </div>
+
+                <div class="action-btns">
+                    <button class="btn btn-primary contact-btn" (click)="openHireModal()">
+                        {{ hasAnyInvite() ? 'Manage Hiring' : 'Hire Me' }}
+                    </button>
+                    <button class="btn btn-outline chat-btn" (click)="openChat()">
+                        <lucide-icon name="message-square" [size]="18"></lucide-icon>
+                        Chat Now
+                    </button>
+                </div>
+                <div class="divider"></div>
+
+                <div class="info-list">
+                    <div class="info-item">
+                        <lucide-icon name="map-pin" [size]="18"></lucide-icon>
+                        <span>From: <strong>{{ candidate.location }}</strong></span>
+                    </div>
+                    <div class="info-item">
+                        <lucide-icon name="user" [size]="18"></lucide-icon>
+                        <span>Experience: <strong>{{ candidate.experience }} years</strong></span>
+                    </div>
+                    <div class="info-item" *ngIf="candidate.roleEntity">
+                        <lucide-icon name="briefcase" [size]="18"></lucide-icon>
+                        <span>Category: <strong>{{ candidate.roleEntity.title }}</strong></span>
+                    </div>
+                    <div class="info-item">
+                        <lucide-icon name="clock" [size]="18"></lucide-icon>
+                        <span>Avg. Response Time: <strong>2 hours</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skills-box box" *ngIf="candidate.skills && candidate.skills.length > 0">
+                <h3>Skills</h3>
+                <div class="skill-tags">
+                    <span *ngFor="let s of candidate.skills" class="skill-tag">{{ s.skill }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            <section class="bio-section box">
+                <h3>About Myself</h3>
+                <p>{{ candidate.bio }}</p>
+            </section>
+
+            <section class="experience-section box">
+                <h3>What I Offer</h3>
+                <div class="offering">
+                    <lucide-icon name="check" [size]="20" class="check-icon"></lucide-icon>
+                    <div class="text">
+                        <h4>Professional Expertise</h4>
+                        <p>I bring {{ candidate.experience }} years of experience in {{ candidate.role }} to help you achieve your goals with
+                            high-quality results.</p>
+                    </div>
+                </div>
+                <div class="offering">
+                    <lucide-icon name="check" [size]="20" class="check-icon"></lucide-icon>
+                    <div class="text">
+                        <h4>Timely Delivery</h4>
+                        <p>I respect deadlines and ensure communication is clear throughout the project lifecycle.</p>
+                    </div>
+                </div>
+                <div class="offering">
+                    <lucide-icon name="check" [size]="20" class="check-icon"></lucide-icon>
+                    <div class="text">
+                        <h4>Global Standard Quality</h4>
+                        <p>Work follows modern best practices and industry standards for {{ candidate.role }}.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="projects-section box" *ngIf="candidate.projects && candidate.projects.length > 0">
+                <h3>Recent Work</h3>
+                <div class="project-grid">
+                    <div class="project-card" *ngFor="let p of candidate.projects">
+                        <img [src]="p.imageURL || 'https://placehold.co/400x250/f0f0f0/999?text=Project'" [alt]="p.title">
+                        <div class="project-info">
+                            <h4>{{ p.title }}</h4>
+                            <p>{{ p.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="projects-section box" *ngIf="!candidate.projects || candidate.projects.length === 0">
+                <h3>Recent Work</h3>
+                <p class="no-data">No projects listed yet.</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Hire Modal -->
+    <div class="modal-backdrop" *ngIf="showHireModal" (click)="closeHireModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Select a Project to Hire {{ candidate.name }}</h3>
+                <button class="close-btn" (click)="closeHireModal()">
+                    <lucide-icon name="search-x" [size]="20"></lucide-icon>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <p *ngIf="myProjects.length === 0" class="no-projects">
+                    You don't have any active projects. <a routerLink="/post-project">Post a project first.</a>
+                </p>
+                <div class="project-list">
+                    <div class="project-item box" *ngFor="let p of myProjects">
+                        <div class="p-info">
+                            <h4>{{ p.title }}</h4>
+                            <span class="type">{{ p.projectType }}</span>
+                        </div>
+                        
+                        <div *ngIf="getInviteStatus(p.id) === 'PENDING'" class="status-indicator">
+                            <span style="color: #feca57; font-weight: 600;">Invite Pending</span>
+                        </div>
+                        <div *ngIf="getInviteStatus(p.id) === 'ACCEPTED'" class="status-indicator">
+                            <span style="color: #2ed573; font-weight: 600;">Already Hired</span>
+                        </div>
+                        <div *ngIf="getInviteStatus(p.id) === 'REJECTED'" class="status-indicator">
+                            <span style="color: #ff4757; font-weight: 600;">Offer Declined</span>
+                        </div>
+
+                        <button *ngIf="!getInviteStatus(p.id)" class="btn btn-primary" (click)="sendHireInvite(p.id)" [disabled]="isHiring">
+                            {{ isHiring ? 'Sending...' : 'Send Invite' }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

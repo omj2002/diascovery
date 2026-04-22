@@ -1,0 +1,40 @@
+<div class="candidate-card" [routerLink]="['/candidate-details', candidate.id]">
+    <div class="card-image">
+        <img [src]="candidate.profileImage" [alt]="candidate.name">
+        <div class="save-btn">
+            <lucide-icon name="heart" [size]="20"></lucide-icon>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="member-info">
+            <img [src]="candidate.profileImage" alt="" class="avatar">
+            <div class="text">
+                <span class="name">{{ candidate.name }}</span>
+                <span class="badge">Level 2 Seller</span>
+            </div>
+        </div>
+        <p class="role-desc">{{ candidate.role }}</p>
+        <div class="stats">
+            <div class="rating">
+                <lucide-icon name="star" [size]="16" class="star" fill="#222325"></lucide-icon>
+                <span class="value">{{ candidate.rating }}</span>
+                <span class="count">({{ candidate.reviewCount }})</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="location">
+                <lucide-icon name="map-pin" [size]="14"></lucide-icon>
+                <span>{{ candidate.location }}</span>
+            </div>
+            <div class="price">
+                <div class="chat-icon" (click)="openChat($event)">
+                    <lucide-icon name="message-square" [size]="16"></lucide-icon>
+                </div>
+                <div class="price-val">
+                    <span class="label">STARTING AT</span>
+                    <span class="value">${{ candidate.priceFrom }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

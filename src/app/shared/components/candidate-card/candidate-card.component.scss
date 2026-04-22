@@ -1,0 +1,177 @@
+.candidate-card {
+    background-color: var(--white);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+        .card-image img {
+            transform: scale(1.05);
+        }
+    }
+
+    .card-image {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 5 / 3.4;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .save-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #ff3366;
+            }
+        }
+    }
+
+    .card-body {
+        padding: 16px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .text {
+                display: flex;
+                flex-direction: column;
+
+                .name {
+                    font-weight: 700;
+                    font-size: 14px;
+                    color: var(--text-dark);
+                }
+
+                .badge {
+                    font-size: 11px;
+                    color: #ffbe5b;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .role-desc {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 48px;
+        }
+
+        .stats {
+            .rating {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 14px;
+                font-weight: 700;
+
+                .star {
+                    color: #ffbe5b;
+                }
+
+                .count {
+                    color: var(--text-muted);
+                    font-weight: 400;
+                }
+            }
+        }
+
+        .card-footer {
+            border-top: 1px solid var(--border-light);
+            padding-top: 16px;
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .location {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 12px;
+                color: var(--text-muted);
+            }
+
+            .price {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 12px;
+
+                .chat-icon {
+                    padding: 6px;
+                    border-radius: 50%;
+                    background: #f4f5f7;
+                    color: var(--text-muted);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        background: var(--primary-color);
+                        color: white;
+                    }
+                }
+
+                .price-val {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+
+                    .label {
+                        font-size: 10px;
+                        color: var(--text-muted);
+                        font-weight: 700;
+                    }
+
+                    .value {
+                        font-size: 18px;
+                        font-weight: 700;
+                        color: var(--text-dark);
+                    }
+                }
+            }
+        }
+    }
+}

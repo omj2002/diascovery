@@ -1,0 +1,57 @@
+<div class="invitations-page">
+  <div class="container">
+    
+    <div class="page-header glass-panel">
+      <h1>My Invitations</h1>
+      <p>Manage your incoming project offers and hire requests.</p>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-state glass-panel">
+      <div class="spinner"></div>
+      <p>Loading your invitations...</p>
+    </div>
+
+    <div class="invitations-grid" *ngIf="!isLoading && user">
+      
+      <div *ngIf="invitations.length === 0" class="empty-state glass-panel">
+        <lucide-icon name="mail" [size]="48"></lucide-icon>
+        <h3>No invitations yet</h3>
+        <p>You haven't received any project invitations. Keep your profile updated to attract clients!</p>
+        <a routerLink="/candidates" class="btn btn-outline mt-3">Browse Top Candidates</a>
+      </div>
+
+      <div class="invite-card glass-panel" *ngFor="let invite of invitations" [ngClass]="invite.status.toLowerCase()">
+        <div class="card-top">
+          <div class="project-info">
+            <h2>{{ invite.project?.title || 'Unknown Project' }}</h2>
+            <span class="type-badge">{{ invite.project?.projectType || 'Unknown' | titlecase }}</span>
+          </div>
+          <div class="status-badge" [ngClass]="invite.status.toLowerCase()">
+            {{ invite.status }}
+          </div>
+        </div>
+        
+        <p class="desc">{{ invite.project?.description }}</p>
+
+        <div class="meta-info">
+            <span><lucide-icon name="users" [size]="16"></lucide-icon> Team Size: {{ invite.project?.teamSize }}</span>
+            <span *ngIf="invite.createdAt"><lucide-icon name="calendar" [size]="16"></lucide-icon> Sent on {{ invite.createdAt | date:'mediumDate' }}</span>
+        </div>
+
+        <div class="action-bar" *ngIf="invite.status === 'PENDING'">
+          <button class="btn btn-success" (click)="updateStatus(invite.id, 'ACCEPTED')">
+            <lucide-icon name="check" [size]="18"></lucide-icon> Accept Offer
+          </button>
+          <button class="btn btn-danger" (click)="updateStatus(invite.id, 'REJECTED')">
+            <lucide-icon name="x" [size]="18"></lucide-icon> Decline
+          </button>
+        </div>
+        <div class="action-bar settled" *ngIf="invite.status !== 'PENDING'">
+          <p *ngIf="invite.status === 'ACCEPTED'">You have accepted this role. The project owner has been notified.</p>
+          <p *ngIf="invite.status === 'REJECTED'">You declined this invitation.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
